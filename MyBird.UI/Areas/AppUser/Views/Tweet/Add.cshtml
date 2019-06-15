@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/AppUser/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<link href="~/Content/css/bootstrap3-wysihtml5.min.css" rel="stylesheet" />
+<script src="~/Content/scripts/dataTables.bootstrap.min.js"></script>
+<section class="content-header">
+    <h1>
+        Article Transactions
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">Article Transactions</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            @*@Html.Partial("FormMessages")*@
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Share a tweet :)</h3>
+                </div>
+                <form action="/AppUser/Tweet/Add" method="post" role="form" enctype="multipart/form-data">
+                    <div class="box-body">
+                        @*<div class="form-group">
+                            <label for="exampleInputEmail1">Header</label>
+                            <input type="text" name="Header" value="" class="form-control" id="exampleInputEmail1" placeholder="Header">
+                        </div>*@
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea class="form-control" name="TweetContent" value="" rows="3" placeholder="Content ..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Image">Image</label>
+                        <input type="file" name="Image" value="" class="form-control" />
+                    </div>
+                    @*<div class="form-group">
+                        <label for="CategoryID">Choose Category</label>
+                        <select name="CategoryID" class="form-control">
+                            @foreach (var item in Model)
+                            {
+                                <option value="@item.ID">@item.Header</option>
+                            }
+                        </select>
+                    </div>*@
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Tweet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>$(function () {
+        //Add text editor
+        $("#compose-textarea").wysihtml5();
+    });</script>

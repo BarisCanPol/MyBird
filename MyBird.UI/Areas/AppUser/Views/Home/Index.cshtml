@@ -1,0 +1,278 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AppUser/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@model MyBird.UI.Areas.AppUser.Models.VM.TweetListVM
+
+
+
+<section class="content">
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- The time line -->
+            <ul class="timeline">
+                <!-- timeline time label -->
+                @*<li class="time-label">
+                        <span class="bg-red">
+                            1000
+                        </span>
+                    </li>*@
+                <!-- /.timeline-label -->
+                <!-- timeline item -->
+                <!-- END timeline item -->
+                <!-- timeline item -->
+                <!-- END timeline item -->
+                <!-- timeline item -->
+                <li>
+
+
+
+                    <button onclick="Incrementcurrent"></button>
+
+                    <div class="timeline-item">
+
+
+                        @foreach (var item in Model.BirdTweets)
+                        {
+                            foreach (var item2 in Model.BirdUsers)
+                            {
+                                if (item2.ID == item.BirdUserID)
+                                {
+                                    <span class="time"><i class="fa fa-clock-o"></i> @item.CreatedDate</span>
+                                    <img class="img-responsive img-circle img-sm" src="@item2.ImagePath" alt="Alt Text">
+                                    <h3 class="timeline-header"><u class="username" name="UserName">@item2.UserName;</u> 's a post..</h3>
+                                    <div class="timeline-body">
+                                        @item.TweetContent
+                                    </div>
+
+                                    <div class="timeline-footer">
+
+                                        <button type="submit" id="like" class="btn btn-flat"><i class="fa fa-hand-spock-o">Like</i></button>
+
+
+                                        <span class="pull-right text-muted">@Model.TweetLike likes -  comments</span>
+
+                                        <a class="btn btn-flat"><i class="fa fa-hand-lizard-o">Comment</i></a>
+                                        <div class="box-footer">
+                                            <form action="#" method="post">
+                                                <img class="img-responsive img-circle img-sm"
+                                                     src="~/Content/Images/ekxy2je2.jpeg" alt="Alt Text">
+                                                <!-- .img-push is used to add margin to elements next to floating images -->
+                                                <div class="img-push">
+                                                    <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+
+                    </div>
+                </li>
+                <!-- END timeline item -->
+                <!-- timeline time label -->
+                @*<li class="time-label">
+                        <span class="bg-green">
+                            3 Jan. 2014
+                        </span>
+                    </li>*@
+                <!-- /.timeline-label -->
+                <!-- timeline item -->
+                @*<li>
+                        <i class="fa fa-camera bg-purple"></i>
+
+                        <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+
+                            <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+
+                            <div class="timeline-body">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                            </div>
+                        </div>
+                    </li>*@
+                <!-- END timeline item -->
+                <!-- timeline item -->
+                <!-- END timeline item -->
+
+            </ul>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    @*<div class="row" style="margin-top: 10px;">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title"><i class="fa fa-code"></i> Timeline Markup</h3>
+                        </div>
+                        <div class="box-body">
+                            @*<pre style="font-weight: 600;">&lt;ul class="timeline"&gt;
+
+            &lt;!-- timeline time label --&gt;
+            &lt;li class="time-label"&gt;
+                &lt;span class="bg-red"&gt;
+                    10 Feb. 2014
+                &lt;/span&gt;
+            &lt;/li&gt;
+            &lt;!-- /.timeline-label --&gt;
+
+            &lt;!-- timeline item --&gt;
+            &lt;li&gt;
+                &lt;!-- timeline icon --&gt;
+                &lt;i class="fa fa-envelope bg-blue"&gt;&lt;/i&gt;
+                &lt;div class="timeline-item"&gt;
+                    &lt;span class="time"&gt;&lt;i class="fa fa-clock-o"&gt;&lt;/i&gt; 12:05&lt;/span&gt;
+
+                    &lt;h3 class="timeline-header"&gt;&lt;a href="#"&gt;Support Team&lt;/a&gt; ...&lt;/h3&gt;
+
+                    &lt;div class="timeline-body"&gt;
+                        ...
+                        Content goes here
+                    &lt;/div&gt;
+
+                    &lt;div class="timeline-footer"&gt;
+                        &lt;a class="btn btn-primary btn-xs"&gt;...&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;!-- END timeline item --&gt;
+
+            ...
+
+        &lt;/ul&gt;
+                          </pre>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>*@
+    <!-- /.row -->
+
+
+</section>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", function like(id) {
+
+            $.ajax({
+                type: "POST",
+                dataType: "Json",
+                url: "@Url.Action("AddLike","Like")" + id,
+                success: function (data) {
+                    if (data.isSuccess == true) {
+                        $("#message" + id).removeAttr("style");
+                        $("#like").remove();
+                        $("#message" + id).html("");
+                        $("#message" + id).append(data.userMessage);
+                    }
+                    else {
+                        $("#message" + id).removeAttr("style");
+                        $("#like").remove();
+                        $("#message" + id).html("");
+                        $("#message" + id).append(data.userMessage);
+                    }
+                }
+            })
+
+        })
+    }
+
+       @*function comment(articleID) {
+            console.log(articleID);
+            var commentText = $("#comment").val();
+
+        $.ajax({
+                    type: "POST",
+                    dataType: "Json",
+                    data: { userComment: commentText, id: articleID },
+                    url: "@Url.Action("AddComment","Comment")",
+                    success: function (data) {
+                        if (data == true) {
+                            $("#message").removeAttr("style");
+                            $("#message").html("");
+                            $("#message").append("Yorumlandı.").fadeIn(2000);
+
+                             //Commentlerin hepsini silip tekrar listelemeyle geri çekmek gerekiyor.
+
+                            commentdynamiclist(articleID);
+
+                        }
+                        else {
+                            $("#message").removeAttr("style");
+                            $("#message").html("");
+                            $("#message").append("Bir hata meydana geldi.");
+                        }
+                    }
+                })
+
+    }
+
+        function commentdynamiclist(id) {
+
+            $.ajax({
+                type: "POST",
+                dataType: "Json",
+                url: "@Url.Action("GetAtricleComment", "Comment")/" + id,
+                success: function (data) {
+                    if (data != null) {
+
+                        console.log(data.FirstName);
+                        $("#dynamiccomment").append("<div class='box-comment' id='lastcomment'><!-- User image --><img class='img-circle img-sm' src='" + data.AppUserImagePath + "' alt='User Image'><div class='comment-text'><span class='username'>" + data.FirstName + " " + data.LastName + "<span class='text-muted pull-right'>" + data.CreatedDate + "</span></span><!-- /.username -->" + data.Content + "</div></div>");
+
+                        $("#comment").val("");
+                        $("#message").fadeOut(2000);
+                        $("#lastcomment").hide().fadeIn(2000);
+
+                    }
+                    else {
+
+                    }
+                }
+            })
+
+        }*@
+
+    //$(document).ready(function () {
+    //    //LIKE
+    //    $(document).on("click","a.like", function () {
+    //        var id = $(this).data("id");
+    //        var link = "/AppUser/Like/LikeThis" + id;
+    //        var a = $("a[class$='like'][data-id$='" + id+"']");
+    //        $.ajax({
+    //            type: "GET",
+    //            url: link,
+    //            success: function (result) {
+    //                a.html('<i class="fa fa-heart fa-lg text-danger"></i> (' + result + ')').removeClass("like").addClass("unlike");
+    //            }
+    //        });
+    //    });
+    //    //UNLIKE
+    ////    $("a.unlike").click(function () {
+    ////        var id = $(this).data("id");
+    ////        var link = "/AppUser/Like/UnlikeThis/" + id;
+    ////        var a = $(this);
+    ////        $.ajax({
+    ////            type: "GET",
+    ////            url: link,
+    ////            success: function (result) {
+    ////                a.html('<i class="fa fa-heart fa-lg text-danger"></i> (' + result + ')');
+    ////            }
+    ////        });
+    ////    });
+
+    ////});
+
+</script>
+
